@@ -5,8 +5,8 @@
         private $databaseName="toystoreDB";
         private $username="user01";
         private $password="user01";
-        private $dbCon;
-        private $myQuery;
+        //private $dbCon;
+        
         public function __construct()
         {
             try {
@@ -15,7 +15,7 @@
                     $this->dbCon=new PDO("mysql:host=".$this->hostName.";dbname=".$this->databaseName,$this->username,$this->password);
                     // set the PDO error mode to exception
                     $this->dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                   // echo "You are now connected to toystorDB";
+                    //echo "You are now connected to toystorDB";
                 }
 
             } catch (PDOException $e) {
@@ -95,15 +95,10 @@
             $columns = '';
             $values  = '';
             $i = 0;
-            if(!array_key_exists('created',$data)){
-                $data['created'] = date("Y-m-d H:i:s");
-            }
-            if(!array_key_exists('modified',$data)){
-                $data['modified'] = date("Y-m-d H:i:s");
-            }
-
+            
             $columnString = implode(',', array_keys($data));
             $valueString = ":".implode(',:', array_keys($data));
+            print_r($valueString);
             $sql = "INSERT INTO ".$table." (".$columnString.") VALUES (".$valueString.")";
             $query = $this->dbCon->prepare($sql);
             foreach($data as $key=>$val){

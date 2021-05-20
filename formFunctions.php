@@ -2,15 +2,21 @@
 session_start();
 include 'dbConfig.php';
 $dbCon = new dbConnect();
+
 $tableName = 'Toy';
 if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     if($_REQUEST['action_type'] == 'add'){
+        
         $toyData = array(
             'name' => $_POST['name'],
             'type' => $_POST['type'],
-            'price' => $_POST['price']
+            'price' => $_POST['price'],
+            'minAge' => $_POST['minAge'],
+            'maxAge' => $_POST['maxAge']
         );
+        
         $insert = $dbCon->insert($tableName,$toyData);
+        
         $statusMsg = $insert?'Toy has been inserted successfully.':'Some problem occurred, please try again.';
         $_SESSION['statusMsg'] = $statusMsg;
         header("Location:index.php");
@@ -19,7 +25,9 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             $toyData = array(
                 'name' => $_POST['name'],
                 'type' => $_POST['type'],
-                'price' => $_POST['price']
+                'price' => $_POST['price'],
+                'minAge' => $_POST['minAge'],
+                'maxAge' => $_POST['maxAge']
             );
             $condition = array('id' => $_POST['id']);
             $update = $dbCon->update($tableName,$toyData,$condition);
