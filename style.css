@@ -1,0 +1,17 @@
+label{font-size: 1.2rem;}
+  input[type="text"]{height: 3.3125rem;font-size: 1.2rem;}
+  .btn-default {border: black 1px solid;padding-top: .8rem;padding-right: 0.8rem;padding-bottom: .8rem;padding-left: 0.8rem;}
+  .row{ margin:20px 20px 20px 20px;width: 100%;}
+  .user-add-edit{width:40%;margin:10px; }
+  .user-add-edit form{width:90%;}
+  .glyphicon{font-size: 20px;}
+  .glyphicon-arrow-left{float: right;}
+  a.glyphicon{text-decoration: none;}
+
+  .users-content{width:90%;}
+  table tr th, table tr td{font-size: 1.2rem;}
+  .row{ margin:20px 20px 20px 20px;width: 100%;}
+  .glyphicon{font-size: 20px;}
+  .glyphicon-plus{float: right;}
+  a.glyphicon{text-decoration: none;}
+  a.glyphicon-trash{margin-left: 10px;}
