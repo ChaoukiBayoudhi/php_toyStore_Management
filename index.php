@@ -31,6 +31,7 @@ if(!empty($_SESSION['statusMsg'])){
             <?php
             include 'dbConfig.php';
             $dbCon = new dbConnect();
+                                       //could be array('select'=>'id,name')
             $toys = $dbCon->getRows('Toy',array('order_by'=>'id DESC'));
             if(!empty($toys)){ $count = 0; foreach($toys as $toy){ $count++;?>
             <tr>

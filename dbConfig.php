@@ -14,7 +14,7 @@
                 {
                     $this->dbCon=new PDO("mysql:host=".$this->hostName.";dbname=".$this->databaseName,$this->username,$this->password);
                     // set the PDO error mode to exception
-                    $this->dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                   // $this->dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     //echo "You are now connected to toystorDB";
                 }
 
@@ -128,9 +128,7 @@
             $colvalSet = '';
             $whereSql = '';
             $i = 0;
-            if(!array_key_exists('modified',$data)){
-                $data['modified'] = date("Y-m-d H:i:s");
-            }
+            
             foreach($data as $key=>$val){
                 $pre = ($i > 0)?', ':'';
                 $colvalSet .= $pre.$key."='".$val."'";
@@ -171,7 +169,7 @@
             }
         }
         $this->sqlRequest = "DELETE FROM ".$table.$whereSql;
-        $delete = $this->dbCon->exec($this->sqlRequest);
+        $delete = $this->dbCon->exec($this->sqlRequest); //without prepared statement
         return $delete?$delete:false;
     }
   }
