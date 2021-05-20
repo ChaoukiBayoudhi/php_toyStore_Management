@@ -1,4 +1,4 @@
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -16,7 +16,7 @@ if(!empty($_SESSION['statusMsg'])){
 
 <div class="row">
     <div class="panel panel-default toys-content">
-        <!-- <div class="panel-heading">Toys <a href="addToy.php" class="glyphicon glyphicon-plus"></a></div> -->
+        <div class="panel-heading">Toys <a href="addToy.php" class="glyphicon glyphicon-plus"></a></div>
         <table class="table">
             <tr>
                 <th width="5%">#</th>
@@ -41,9 +41,9 @@ if(!empty($_SESSION['statusMsg'])){
                 <td><?php echo $toy['price']; ?></td>
                 <td><?php echo $toy['minAge']; ?></td>
                 <td><?php echo $toy['maxAge']; ?></td>
-                 <td>
-                    <a href="commandToy.php?id=<?php echo $toy['id']; ?>" class="glyphicon glyphicon-shopping-cart">  buy</a>
-                    <!-- <a href="formFunctions.php?action_type=delete&id=<?php echo $toy['id']; ?>" class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure?');"></a> -->
+                <td>
+                    <a href="updateToy.php?id=<?php echo $toy['id']; ?>" class="glyphicon glyphicon-edit"></a>
+                    <a href="formFunctions.php?action_type=delete&id=<?php echo $toy['id']; ?>" class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure?');"></a>
                 </td>
             </tr>
             <?php } }else{ ?>

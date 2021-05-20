@@ -20,7 +20,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         $statusMsg = $insert?'Toy has been successfully inserted.'.'<br>'.$dbCon->showSqlRequest():'Some problem occurred, please try again.';
         $_SESSION['statusMsg'] = $statusMsg;
         header("Location:index.php");
-    }elseif($_REQUEST['action_type'] == 'edit'){
+    }elseif($_REQUEST['action_type'] == 'update'){
         if(!empty($_POST['id'])){
             $toyData = array(
                 'name' => $_POST['name'],
