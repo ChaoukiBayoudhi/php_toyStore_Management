@@ -5,8 +5,8 @@
         private $databaseName="toystoreDB";
         private $username="user01";
         private $password="user01";
-        //private $dbCon;
-        
+        private $dbCon;
+        private $sqlRequest;
         public function __construct()
         {
             try {
@@ -33,6 +33,10 @@
         {
             return $this->dbCon;
         }
+        public function showSqlRequest()
+        {
+            echo $this->sqlRequest;
+        }
 
         /*
      * Returns rows from the database based on the conditions
@@ -40,30 +44,31 @@
      * @param array select, where, order_by, limit and return_type conditions
      */
     public function getRows($table,$conditions = array()){
-        $sql = 'SELECT ';
-        $sql .= array_key_exists("select",$conditions)?$conditions['select']:'*';
-        $sql .= ' FROM '.$table;
+        $this->sqlRequest = 'SELECT ';
+        $this->sqlRequest .= array_key_exists("select",$conditions)?$conditions['select']:'*';
+        $this->sqlRequest .= ' FROM '.$table;
         if(array_key_exists("where",$conditions)){
-            $sql .= ' WHERE ';
+            $this->sqlRequest .= ' WHERE ';
             $i = 0;
             foreach($conditions['where'] as $key => $value){
                 $pre = ($i > 0)?' AND ':'';
-                $sql .= $pre.$key." = '".$value."'";
+                $this->sqlRequest .= $pre.$key." = '".$value."'";
                 $i++;
             }
         }
 
         if(array_key_exists("order_by",$conditions)){
-            $sql .= ' ORDER BY '.$conditions['order_by'];
+            $this->sqlRequest .= ' ORDER BY '.$conditions['order_by'];
         }
 
         if(array_key_exists("start",$conditions) && array_key_exists("limit",$conditions)){
-            $sql .= ' LIMIT '.$conditions['start'].','.$conditions['limit'];
+            $this->sqlRequest .= ' LIMIT '.$conditions['start'].','.$conditions['limit'];
         }elseif(!array_key_exists("start",$conditions) && array_key_exists("limit",$conditions)){
-            $sql .= ' LIMIT '.$conditions['limit'];
+            $this->sqlRequest .= ' LIMIT '.$conditions['limit'];
         }
 
-        $query = $this->dbCon->prepare($sql);
+        
+        $query = $this->dbCon->prepare($this->sqlRequest);
         $query->execute();
 
         if(array_key_exists("return_type",$conditions) && $conditions['return_type'] != 'all'){
@@ -99,8 +104,9 @@
             $columnString = implode(',', array_keys($data));
             $valueString = ":".implode(',:', array_keys($data));
             print_r($valueString);
-            $sql = "INSERT INTO ".$table." (".$columnString.") VALUES (".$valueString.")";
-            $query = $this->dbCon->prepare($sql);
+            $this->sqlRequest = "INSERT INTO ".$table." (".$columnString.") VALUES (".$valueString.")";
+            
+            $query = $this->dbCon->prepare($this->sqlRequest);
             foreach($data as $key=>$val){
                  $query->bindValue(':'.$key, $val);
             }
@@ -139,8 +145,8 @@
                     $i++;
                 }
             }
-            $sql = "UPDATE ".$table." SET ".$colvalSet.$whereSql;
-            $query = $this->dbCon->prepare($sql);
+            $this->sqlRequest = "UPDATE ".$table." SET ".$colvalSet.$whereSql;
+            $query = $this->dbCon->prepare($this->sqlRequest);
             $update = $query->execute();
             return $update?$query->rowCount():false;
         }else{
@@ -164,159 +170,10 @@
                 $i++;
             }
         }
-        $sql = "DELETE FROM ".$table.$whereSql;
-        $delete = $this->dbCon->exec($sql);
+        $this->sqlRequest = "DELETE FROM ".$table.$whereSql;
+        $delete = $this->dbCon->exec($this->sqlRequest);
         return $delete?$delete:false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-//         public function get($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null){
-//             $selectQuery = 'SELECT '.$rows.' FROM '.$table;
-//             if($join != null){
-//                 $selectQuery .= ' JOIN '.$join;
-//             }
-//             if($where != null){
-//                 $selectQuery .= ' WHERE '.$where;
-//             }
-//             if($order != null){
-//                 $selectQuery .= ' ORDER BY '.$order;
-//             }
-//             if($limit != null){
-//                 $selectQuery .= ' LIMIT '.$limit;
-//             }
-//             $this->myQuery = $selectQuery;
-//             if($this->checkTable($table)){
-//                 try {
-//                     // $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-//                     // // set the PDO error mode to exception
-//                     // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//                      // use exec() because no results are returned
-//                     $this->dbCon->exec($this->myQuery);
-//                     $stmt->execute(array(":id"=>$id));
-//   $editRow=$stmt->fetch(PDO::FETCH_ASSOC);
-//   return $editRow;
-//                     echo "New record created successfully";
-//                   } catch(PDOException $e) {
-//                     echo $this->myQuery . "<br>" . $e->getMessage();
-//                   }
-                  
-//                   $this->dbCon = null;//close the DB connection
-//             }
-//         }	
-//         public function insert($table,$params=array()){
-//             if($this->checkTable($table)){
-//                  $insertQuery='INSERT INTO `'.$table.'` (`'.implode('`, `',array_keys($params)).'`) VALUES ("' . implode('", "', $params) . '")';
-//                  $this->myQuery = $insertQuery;
-//                  if($this->checkTable($table)){
-//                      try {
-//                          // $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-//                          // // set the PDO error mode to exception
-//                          // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//                           // use exec() because no results are returned
-//                          $this->dbCon->exec($this->myQuery);
-//                          echo "New record created successfully";
-//                        } catch(PDOException $e) {
-//                          echo $this->myQuery . "<br>" . $e->getMessage();
-//                        }
-                       
-//                        $this->dbCon = null;//close the DB connection
-//                  }
-//                 }
-//         }	
-//         public function update($table,$params=array(),$where){
-//             if($this->checkTable($table)){
-//                 $args=array();
-//                 foreach($params as $field=>$value){
-//                     $args[]=$field.'="'.$value.'"';
-//                 }
-//                 $updateQuery='UPDATE '.$table.' SET '.implode(',',$args).' WHERE '.$where;
-//                 $this->myQuery = $updateQuery;
-//             if($this->checkTable($table)){
-//                 try {
-//                     // $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-//                     // // set the PDO error mode to exception
-//                     // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//                      // use exec() because no results are returned
-//                     $this->dbCon->exec($this->myQuery);
-//                     echo "New record created successfully";
-//                   } catch(PDOException $e) {
-//                     echo $this->myQuery . "<br>" . $e->getMessage();
-//                   }
-                  
-//                   $this->dbCon = null;//close the DB connection
-//             }
-//         }
-//         }
-//         // public function delete($table,$where = null){
-//         //     if($this->checkTable($table)){
-//         //          if($where == null){
-//         //             $deleteQuery = 'DROP TABLE '.$table;
-//         //         }else{
-//         //             $deleteQuery = 'DELETE FROM '.$table.' WHERE '.$where;
-//         //         }
-//         //         if($del = @mysql_query($deleteQuery)){
-//         //             array_push($this->result,mysql_affected_rows());
-//         //             $this->myQuery = $deleteQuery; 
-//         //             return true;
-//         //         }else{
-//         //             array_push($this->result,mysql_error());
-//         //                return false; 
-//         //         }
-//         //     }else{
-//         //         return false;
-//         //     }
-//         // }
-//         private function checkTable($table){
-//             try {
-                
-//             $sql = 'SHOW TABLES FROM '.$this->databaseName.' LIKE "'.$table.'"';
-            
-//             //Prepare our SQL statement,
-//             $statement = $this->dbCon->prepare($sql);
-
-//             //Execute the statement.
-//             $statement->execute();
-
-//             //Fetch the rows from our statement.
-//             $tables = $statement->fetchAll(PDO::FETCH_NUM);
-
-//             if(empty($tables))
-//                 throw new Exception($table." does not exist !!! Try to verify");
-//             return true;
-//             } catch (Exception $e) {
-//                 echo $e->getMessage();
-//             }
-//             return false;
-//         }
-//         // public function getResult(){
-//         //     $value = $this->result;
-//         //     $this->result = array();
-//         //     return $value;
-//         // }    
-//         // public function escapeString($data){
-//         //     return mysql_real_escape_string($data);
-//         // }
-//         public function check_empty($data, $fields) {
-//             $msg = null;
-//             foreach ($fields as $value) {
-//                 if (empty($data[$value])) {
-//                     $msg .= "$value field empty";
-//                 }
-//             } 
-//             return $msg;
-//         }
-    
-
-    }
+  }
     //$con=new dbconnect();
 ?>

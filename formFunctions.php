@@ -17,7 +17,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         
         $insert = $dbCon->insert($tableName,$toyData);
         
-        $statusMsg = $insert?'Toy has been inserted successfully.':'Some problem occurred, please try again.';
+        $statusMsg = $insert?'Toy has been successfully inserted.'.'<br>'.$dbCon->showSqlRequest():'Some problem occurred, please try again.';
         $_SESSION['statusMsg'] = $statusMsg;
         header("Location:index.php");
     }elseif($_REQUEST['action_type'] == 'edit'){
@@ -31,7 +31,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             );
             $condition = array('id' => $_POST['id']);
             $update = $dbCon->update($tableName,$toyData,$condition);
-            $statusMsg = $update?'Toy has been updated successfully.':'Some problem occurred, please try again.';
+            $statusMsg = $update?'Toy has been successfully updated.':'Some problem occurred, please try again.';
             $_SESSION['statusMsg'] = $statusMsg;
             header("Location:index.php");
         }
@@ -39,7 +39,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         if(!empty($_GET['id'])){
             $condition = array('id' => $_GET['id']);
             $delete = $dbCon->delete($tableName,$condition);
-            $statusMsg = $delete?'Toy has been deleted successfully.':'Some problem occurred, please try again.';
+            $statusMsg = $delete?'Toy has been successfully deleted.':'Some problem occurred, please try again.';
             $_SESSION['statusMsg'] = $statusMsg;
             header("Location:index.php");
         }

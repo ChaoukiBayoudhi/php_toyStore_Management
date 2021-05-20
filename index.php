@@ -50,4 +50,7 @@ if(!empty($_SESSION['statusMsg'])){
             <?php } ?>
         </table>
     </div>
+    <?php
+    $dbCon->showSqlRequest();
+    ?>
 </div>
