@@ -9,6 +9,8 @@
     <div class="panel panel-default toy-add-edit">
         <div class="panel-heading">Add Toy <a href="adminDashboard.php" class="glyphicon glyphicon-arrow-left"></a></div>
         <div class="panel-body">
+        <!--http is an protocol that transports information via network-->
+        <!-- this protocol has many method to do that like post (transport a huge information) get (transport one information like id, name) -->
             <form method="post" action="formFunctions.php" class="form" id="toyForm">
                 <div class="form-group">
                     <label>Name</label>

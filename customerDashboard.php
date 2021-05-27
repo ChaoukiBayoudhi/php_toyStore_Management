@@ -36,7 +36,8 @@ if(!empty($_SESSION['statusMsg'])){
             //select * from Toy order by id desc ==> getRows('Toy',array('order_by'=>'id DESC'))
             //select id, price from Toy where price<10 and minAge>5 order by price asc
             //getRows('Toy',array('select'=>'id,price','where'=>array(1=>'price<10',2=>minAge>5),'order_by'=>'price asc'))
-            if(!empty($toys)){ $count = 0; foreach($toys as $toy){ $count++;?>
+            if(!empty($toys)){ $count = 0; foreach($toys as $toy){ $count++;
+            ?>
             <tr>
                 <td><?php echo $count; ?></td>
                 <td><?php echo $toy['name']; ?></td>

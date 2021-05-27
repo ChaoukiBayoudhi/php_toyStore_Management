@@ -6,7 +6,7 @@ $dbCon = new dbConnect();
 $tableName = 'Toy';
 if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
     if($_REQUEST['action_type'] == 'add'){
-        
+        //get Toy in formations from the HTML form using POST method and the HTML elements names
         $toyData = array(
             'name' => $_POST['name'],
             'type' => $_POST['type'],

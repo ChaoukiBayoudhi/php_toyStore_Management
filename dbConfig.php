@@ -1,12 +1,15 @@
 <?php
     class dbConnect
     {
+        //class Properties
         private $hostName="localhost";
         private $databaseName="toystoreDB";
-        private $username="user01";
-        private $password="user01";
+        private $username="user06";
+        private $password="user06";
         private $dbCon;
         private $sqlRequest;
+
+        //constructor
         public function __construct()
         {
             try {
@@ -14,13 +17,15 @@
                 {
                     $this->dbCon=new PDO("mysql:host=".$this->hostName.";dbname=".$this->databaseName,$this->username,$this->password);
                     // set the PDO error mode to exception
-                   // $this->dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $this->dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     //echo "You are now connected to toystorDB";
                     // $toy_data=["name"=>"game1",
                     // "type"=>"electronic",
-                    // "price"=>"20.3"
+                    // "price"=>"20.3",
+                    // "minAge"=>6,
+                    // "maxAge"=>18
                     // ];
-                    // $sqlRequest="insert into Toy(name,type,price) values(:name,:type,:price)";
+                    // $sqlRequest="insert into Toy(name,type,price,minAge,maxAge) values(:name,:type,:price,:minAge,:maxAge)";
                     // $stmt=$this->dbCon->prepare($sqlRequest);
                     // $stmt->execute($toy_data);
                     // echo "the toy game1 has been successufly added";
@@ -34,9 +39,22 @@
                 //die();
             }
         }
+        //setters and getters
         public function setDatabaseName($databaseName='toystoreDB')
         {
             $this->databaseName=$databaseName;
+        }
+        public function setHostName($hostName)
+        {
+            $this->hostName=$hostName;
+        }
+        public function setUserName($userName)
+        {
+            $this->username=$userName;
+        }
+        public function setPassword($password)
+        {
+            $this->password=$password;
         }
         public function getDbCon()
         {
@@ -105,24 +123,31 @@
      * @param string name of the table
      * @param array the data for inserting into the table
      */
+    //Exampe of insert request :
+    //$sqlRequest="nsert into Toy(name,price) values(:name,:price);
     public function insert($table,$data){
         if(!empty($data) && is_array($data)){
-            $columns = '';
-            $values  = '';
+            $columnString = '';
+            $valueString  = '';
             $i = 0;
-            
+            //prepare the SQL request
+            //explode(',','abc,nfk,ccc') ==>split a string using separators
+            //the result of explode is an array (['abc','nfk','ccc'])
+            //implode ==>merge an array values using the separator given as first parameter
             $columnString = implode(',', array_keys($data));
             $valueString = ":".implode(',:', array_keys($data));
             print_r($valueString);
             $this->sqlRequest = "INSERT INTO ".$table." (".$columnString.") VALUES (".$valueString.")";
             
-            $query = $this->dbCon->prepare($this->sqlRequest);
+             //Execute the SQL request
+            $stmt = $this->dbCon->prepare($this->sqlRequest);
             //this
             // foreach($data as $key=>$val){
             //      $query->bindValue(':'.$key, $val);
             // }
             //or simply pass $data as parameter to the execute function
-            $insert = $query->execute($data);
+           
+            $insert = $stmt->execute($data);
             return $insert?$this->dbCon->lastInsertId():false;
         }else{
             return false;
@@ -185,5 +210,5 @@
         return $delete?$delete:false;
     }
   }
-    //$con=new dbconnect();
+   
 ?>

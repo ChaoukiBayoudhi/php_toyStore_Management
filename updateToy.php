@@ -11,7 +11,7 @@ if(!empty($toyData)){
 ?>
 <div class="row">
     <div class="panel panel-default toy-add-edit">
-        <div class="panel-heading">Update Toy <a href="index.php" class="glyphicon glyphicon-arrow-left"></a></div>
+        <div class="panel-heading">Update Toy <a href="adminDashboard.php" class="glyphicon glyphicon-arrow-left"></a></div>
         <div class="panel-body">
             <form method="post" action="formFunctions.php" class="form" id="toyForm">
             <div class="form-group">
