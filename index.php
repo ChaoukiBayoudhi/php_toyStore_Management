@@ -1,55 +1,77 @@
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <title>Toy Store Management</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
-<h1>Toy List</h1>
-
-<?php
-session_start();
-if(!empty($_SESSION['statusMsg'])){
-    echo '<p>'.$_SESSION['statusMsg'].'</p>';
-    unset($_SESSION['statusMsg']);
-}
-?>
-
-<div class="row">
-    <div class="panel panel-default toys-content">
-        <!-- <div class="panel-heading">Toys <a href="addToy.php" class="glyphicon glyphicon-plus"></a></div> -->
-        <table class="table">
-            <tr>
-                <th width="5%">#</th>
-                <th width="15%">Name</th>
-                <th width="20%">Type</th>
-                <th width="15%">Price</th>
-                <th width="15%">Min Age</th>
-                <th width="15%">Max Age</th>
-                <th width="15%"></th>
-                
-            </tr>
-            <?php
-            include 'dbConfig.php';
-            $dbCon = new dbConnect();
-                                       //could be array('select'=>'id,name')
-            $toys = $dbCon->getRows('Toy',array('order_by'=>'id DESC'));
-            if(!empty($toys)){ $count = 0; foreach($toys as $toy){ $count++;?>
-            <tr>
-                <td><?php echo $count; ?></td>
-                <td><?php echo $toy['name']; ?></td>
-                <td><?php echo $toy['type']; ?></td>
-                <td><?php echo $toy['price']; ?></td>
-                <td><?php echo $toy['minAge']; ?></td>
-                <td><?php echo $toy['maxAge']; ?></td>
-                 <td>
-                    <a href="commandToy.php?id=<?php echo $toy['id']; ?>" class="glyphicon glyphicon-shopping-cart">  buy</a>
-                    <!-- <a href="formFunctions.php?action_type=delete&id=<?php echo $toy['id']; ?>" class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure?');"></a> -->
-                </td>
-            </tr>
-            <?php } }else{ ?>
-            <tr><td colspan="4">No toy(s) found......</td>
-            <?php } ?>
-        </table>
-    </div>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+   <!--Made with love by Mutiullah Samim -->
+   
+	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>Sign In</h3>
+				<div class="d-flex justify-content-end social_icon">
+					<span><i class="fab fa-facebook-square"></i></span>
+					<span><i class="fab fa-google-plus-square"></i></span>
+					<span><i class="fab fa-twitter-square"></i></span>
+				</div>
+			</div>
+			<div class="card-body">
+				<form action="adminDashboard.php" method="post">
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						<input type="text" class="form-control" placeholder="username">
+						
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						<input type="password" class="form-control" placeholder="password">
+					</div>
+					<div class="row align-items-center remember">
+						<input type="checkbox">Remember Me
+					</div>
+					<div class="form-group">
+                        
+                    <div>
+                    <a href="customerDashboard.php">Show Toys</a>
+
+                    
+                        
+                        
+						<input type="submit" value="Login" class="btn btn btn-primary btn-sm">
+                        </div>
+                    
+					</div>
+				</form>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+					Don't have an account?<a href="#">Sign Up</a>
+				</div>
+				<div class="d-flex justify-content-center">
+					<a href="#">Forgot your password?</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+</body>
+</html>

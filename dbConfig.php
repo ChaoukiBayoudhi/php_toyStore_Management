@@ -16,6 +16,15 @@
                     // set the PDO error mode to exception
                    // $this->dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     //echo "You are now connected to toystorDB";
+                    // $toy_data=["name"=>"game1",
+                    // "type"=>"electronic",
+                    // "price"=>"20.3"
+                    // ];
+                    // $sqlRequest="insert into Toy(name,type,price) values(:name,:type,:price)";
+                    // $stmt=$this->dbCon->prepare($sqlRequest);
+                    // $stmt->execute($toy_data);
+                    // echo "the toy game1 has been successufly added";
+
                 }
 
             } catch (PDOException $e) {
@@ -44,6 +53,7 @@
      * @param array select, where, order_by, limit and return_type conditions
      */
     public function getRows($table,$conditions = array()){
+        //set the SQL Request
         $this->sqlRequest = 'SELECT ';
         $this->sqlRequest .= array_key_exists("select",$conditions)?$conditions['select']:'*';
         $this->sqlRequest .= ' FROM '.$table;
@@ -107,10 +117,12 @@
             $this->sqlRequest = "INSERT INTO ".$table." (".$columnString.") VALUES (".$valueString.")";
             
             $query = $this->dbCon->prepare($this->sqlRequest);
-            foreach($data as $key=>$val){
-                 $query->bindValue(':'.$key, $val);
-            }
-            $insert = $query->execute();
+            //this
+            // foreach($data as $key=>$val){
+            //      $query->bindValue(':'.$key, $val);
+            // }
+            //or simply pass $data as parameter to the execute function
+            $insert = $query->execute($data);
             return $insert?$this->dbCon->lastInsertId():false;
         }else{
             return false;

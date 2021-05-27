@@ -19,7 +19,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
         
         $statusMsg = $insert?'Toy has been successfully inserted.'.'<br>'.$dbCon->showSqlRequest():'Some problem occurred, please try again.';
         $_SESSION['statusMsg'] = $statusMsg;
-        header("Location:index.php");
+        header("Location:adminDashboard.php");
     }elseif($_REQUEST['action_type'] == 'update'){
         if(!empty($_POST['id'])){
             $toyData = array(
@@ -33,7 +33,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             $update = $dbCon->update($tableName,$toyData,$condition);
             $statusMsg = $update?'Toy has been successfully updated.':'Some problem occurred, please try again.';
             $_SESSION['statusMsg'] = $statusMsg;
-            header("Location:index.php");
+            header("Location:adminDashboard.php");
         }
     }elseif($_REQUEST['action_type'] == 'delete'){
         if(!empty($_GET['id'])){
@@ -41,7 +41,7 @@ if(isset($_REQUEST['action_type']) && !empty($_REQUEST['action_type'])){
             $delete = $dbCon->delete($tableName,$condition);
             $statusMsg = $delete?'Toy has been successfully deleted.':'Some problem occurred, please try again.';
             $_SESSION['statusMsg'] = $statusMsg;
-            header("Location:index.php");
+            header("Location:adminDashboard.php");
         }
     }
 }
